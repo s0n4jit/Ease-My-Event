@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /events
+Allow: /categories
+
+Sitemap: https://event-sphere.vercel.app/sitemap.xml
