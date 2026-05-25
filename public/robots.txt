@@ -3,4 +3,4 @@ Allow: /
 Allow: /events
 Allow: /categories
 
-Sitemap: https://event-sphere.vercel.app/sitemap.xml
+Sitemap: https://event-sphere-in.vercel.app/
