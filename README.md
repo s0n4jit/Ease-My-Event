@@ -31,6 +31,8 @@ From **AI-generated copywriting and schedule builders (Google Gemini)** to **sec
 
 ## ✨ Key Features
 
+**Live Demo:** https://event-sphere-in.vercel.app/
+
 ### 👤 Attendee Features
 - **Intelligent Event Discovery**: Filter, search, and browse categories of local or virtual events with curated lists and rapid performance.
 - **Dynamic Ticket Booking**: Intuitive registration flow. Includes an immediate bypass for free events and a robust Razorpay portal for paid options.
@@ -208,7 +210,16 @@ EventSphere is fully configured and optimized for zero-overhead deployments on *
 
 ## 👥 Contributors & Team
 
-- **EventSphere Engineering Team** — *Leading development, database modeling, and design architecture.*
+### 🚀 Core Team
+
+- **Amit** — Team Lead, Database Design, Backend Development & UI/UX Enhancement  
+  GitHub: https://github.com/mello911
+
+- **Sonajit Rabha** — Frontend Development, System Architecture, Authentication, Integrations, Deployment & Project Implementation  
+  GitHub: https://github.com/s0n4jit
+
+- **Rajmohan** — Razorpay Integration & UI/UX Enhancement 
+  GitHub: Coming Soon
 
 ---
 

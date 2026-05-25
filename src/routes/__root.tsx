@@ -30,17 +30,20 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       
       // Open Graph / Facebook
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://event-sphere.vercel.app/' },
+      { property: 'og:site_name', content: 'EventSphere' },
+      { property: 'og:url', content: 'https://event-sphere-in.vercel.app/' },
       { property: 'og:title', content: 'EventSphere' },
       { property: 'og:description', content: 'AI-Powered Event Management & Ticketing Platform' },
       { property: 'og:image', content: '/og-image.png' },
+      { property: 'og:image:alt', content: 'EventSphere — AI-Powered Event Management & Ticketing Platform' },
       
       // Twitter
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:url', content: 'https://event-sphere.vercel.app/' },
+      { name: 'twitter:url', content: 'https://event-sphere-in.vercel.app/' },
       { name: 'twitter:title', content: 'EventSphere' },
       { name: 'twitter:description', content: 'AI-Powered Event Management & Ticketing Platform' },
       { name: 'twitter:image', content: '/og-image.png' },
+      { name: 'twitter:image:alt', content: 'EventSphere — AI-Powered Event Management & Ticketing Platform' },
       
       // Browser PWA Metadata
       { name: 'theme-color', content: '#6D28D9' },
@@ -74,29 +77,29 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://event-sphere.vercel.app/#organization",
+        "@id": "https://event-sphere-in.vercel.app/#organization",
         "name": "EventSphere",
-        "url": "https://event-sphere.vercel.app/",
+        "url": "https://event-sphere-in.vercel.app/",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://event-sphere.vercel.app/assets/Event_Sphere_logo.png"
+          "url": "https://event-sphere-in.vercel.app/assets/Event_Sphere_logo.png"
         },
         "description": "AI-Powered Event Management & Ticketing Platform"
       },
       {
         "@type": "WebSite",
-        "@id": "https://event-sphere.vercel.app/#website",
-        "url": "https://event-sphere.vercel.app/",
+        "@id": "https://event-sphere-in.vercel.app/#website",
+        "url": "https://event-sphere-in.vercel.app/",
         "name": "EventSphere",
         "description": "AI-Powered Event Management & Ticketing Platform"
       },
       {
         "@type": "SoftwareApplication",
-        "@id": "https://event-sphere.vercel.app/#software",
+        "@id": "https://event-sphere-in.vercel.app/#software",
         "name": "EventSphere",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All",
-        "url": "https://event-sphere.vercel.app/",
+        "url": "https://event-sphere-in.vercel.app/",
         "description": "AI-Powered Event Management & Ticketing Platform for discovering, creating, managing, and attending events with intelligent recommendations, seamless ticketing, QR-based check-ins, and organiser analytics."
       }
     ]
