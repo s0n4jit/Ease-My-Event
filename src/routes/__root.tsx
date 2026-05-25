@@ -34,7 +34,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { property: 'og:url', content: 'https://event-sphere-in.vercel.app/' },
       { property: 'og:title', content: 'EventSphere' },
       { property: 'og:description', content: 'AI-Powered Event Management & Ticketing Platform' },
-      { property: 'og:image', content: '/og-image.png' },
+      { property: 'og:image', content: 'https://event-sphere-in.vercel.app/og-image.png' },
       { property: 'og:image:alt', content: 'EventSphere — AI-Powered Event Management & Ticketing Platform' },
       
       // Twitter
@@ -42,7 +42,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'twitter:url', content: 'https://event-sphere-in.vercel.app/' },
       { name: 'twitter:title', content: 'EventSphere' },
       { name: 'twitter:description', content: 'AI-Powered Event Management & Ticketing Platform' },
-      { name: 'twitter:image', content: '/og-image.png' },
+      { name: 'twitter:image', content: 'https://event-sphere-in.vercel.app/og-image.png' },
       { name: 'twitter:image:alt', content: 'EventSphere — AI-Powered Event Management & Ticketing Platform' },
       
       // Browser PWA Metadata
