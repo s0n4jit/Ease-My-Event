@@ -12,8 +12,8 @@ import { Button } from '#/components/ui/button'
 
 export const Route = createFileRoute('/categories/$slug')({
   meta: ({ params }) => [
-    { title: 'Category Events | EventSphere' },
-    { name: 'description', content: 'Browse specialized event listings belonging to this category on EventSphere.' }
+    { title: 'Category Events | EaseMyEvent' },
+    { name: 'description', content: 'Browse specialized event listings belonging to this category on EaseMyEvent.' }
   ],
   component: CategoryEventsPage,
 })

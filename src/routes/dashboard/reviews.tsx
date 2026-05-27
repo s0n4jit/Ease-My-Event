@@ -18,7 +18,7 @@ import { format } from 'date-fns'
 
 export const Route = createFileRoute('/dashboard/reviews')({
   meta: () => [
-    { title: 'My Reviews | EventSphere' },
+    { title: 'My Reviews | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

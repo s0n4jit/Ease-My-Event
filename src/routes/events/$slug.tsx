@@ -27,8 +27,8 @@ const supabase = supabaseClient as any
 
 export const Route = createFileRoute('/events/$slug')({
   meta: ({ params }) => [
-    { title: 'Event Details & Booking | EventSphere' },
-    { name: 'description', content: 'Secure your tickets, view speaker profiles, and explore agendas for this premium listing on EventSphere.' }
+    { title: 'Event Details & Booking | EaseMyEvent' },
+    { name: 'description', content: 'Secure your tickets, view speaker profiles, and explore agendas for this premium listing on EaseMyEvent.' }
   ],
   component: EventDetailPage,
 })
@@ -156,7 +156,7 @@ function EventDetailPage() {
         key: key_id,
         amount: order.amount,
         currency: order.currency,
-        name: 'EventSphere',
+        name: 'EaseMyEvent',
         description: `Tickets for ${event.title}`,
         order_id: order.id,
         prefill: {

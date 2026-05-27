@@ -1,4 +1,4 @@
-export const APP_NAME = 'EventSphere'
+export const APP_NAME = 'EaseMyEvent'
 export const APP_DESCRIPTION = 'Your premier event management and ticketing platform'
 
 export const ROLES = {

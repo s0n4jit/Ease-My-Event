@@ -16,7 +16,7 @@ import { toast } from 'sonner'
 
 export const Route = createFileRoute('/organiser/events/')({
   meta: () => [
-    { title: 'Event Management | EventSphere' },
+    { title: 'Event Management | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

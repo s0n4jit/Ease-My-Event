@@ -3,24 +3,34 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { Mail, Lock, ArrowLeft, Loader2 } from 'lucide-react'
+
+import {
+  Mail,
+  Lock,
+  Loader2,
+  Sparkles,
+  ShieldCheck,
+  CalendarDays,
+  Rocket,
+} from 'lucide-react'
+
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '#/components/ui/card'
+
 import { useSignIn, useAuth } from '#/hooks/use-auth'
 import { loginSchema, type LoginFormData } from '#/schemas/auth.schema'
-import { APP_NAME } from '#/lib/constants'
 
 import { supabase as supabaseClient } from '#/lib/supabase'
+
 const supabase = supabaseClient as any
 
 export const Route = createFileRoute('/auth/login')({
   head: () => ({
     meta: [
-      { title: 'Sign In | EventSphere' },
-      { name: 'robots', content: 'noindex, nofollow' }
-    ]
+      { title: 'Sign In | EaseMyEvent' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
   }),
   component: LoginPage,
 })
@@ -31,22 +41,27 @@ function LoginPage() {
   const { isAuthenticated, role } = useAuth()
 
   if (isAuthenticated && role) {
-    const target = role === 'admin'
-      ? '/admin'
-      : role === 'organiser'
-        ? '/organiser'
-        : '/dashboard'
+    const target =
+      role === 'admin'
+        ? '/admin'
+        : role === 'organiser'
+          ? '/organiser'
+          : '/dashboard'
+
     navigate({ to: target })
   }
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
 
   const onSubmit = (data: LoginFormData) => {
     signIn.mutate(data, {
       onSuccess: async (loginData) => {
-        // Fetch user profile immediately to check suspension status
         const { data: profile, error } = await supabase
           .from('users')
           .select('*')
@@ -60,19 +75,23 @@ function LoginPage() {
         }
 
         if (profile.is_active === false) {
-          toast.error('Your account has been suspended. Contact support.')
+          toast.error('Your account has been suspended.')
           await supabase.auth.signOut()
           return
         }
 
         toast.success('Welcome back!')
-        const target = profile.role === 'admin'
-          ? '/admin'
-          : profile.role === 'organiser'
-            ? '/organiser'
-            : '/dashboard'
+
+        const target =
+          profile.role === 'admin'
+            ? '/admin'
+            : profile.role === 'organiser'
+              ? '/organiser'
+              : '/dashboard'
+
         navigate({ to: target })
       },
+
       onError: (error) => {
         toast.error(error.message || 'Invalid credentials')
       },
@@ -80,81 +99,233 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-12">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 via-transparent to-indigo-600/5" />
-        <div className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-violet-400/10 blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-indigo-400/10 blur-3xl" />
+    <div className="relative h-screen overflow-hidden bg-black text-white">
+      {/* BACKGROUND */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
+
+        <div className="absolute bottom-[-10%] right-[-10%] h-[350px] w-[350px] rounded-full bg-blue-700/30 blur-3xl" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
-      >
-        <Link to="/" className="mb-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground no-underline transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to {APP_NAME}
-        </Link>
+      <div className="relative z-10 flex h-screen items-center justify-center overflow-hidden px-4 py-2 lg:px-8">
+        <div className="grid w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
 
-        <Card className="border-border/50 shadow-xl shadow-violet-500/5">
-          <CardHeader className="text-center pb-4">
-            <img src="/assets/Event_Sphere_logo.png" alt="EventSphere Logo" className="mx-auto mb-3 h-12 w-auto object-contain" />
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
-            <CardDescription>Sign in to your EventSphere account</CardDescription>
-          </CardHeader>
+          {/* LEFT SIDE */}
+          <div className="hidden lg:flex flex-col justify-center">
+            <Link
+              to="/"
+              className="mb-8 inline-flex items-center gap-3 no-underline"
+            >
+              <img
+                src="/assets/EaseMyEvent_E_logo.png"
+                alt="Logo"
+                className="h-11 w-11 object-contain"
+              />
 
-          <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    className="pl-10"
-                    {...register('email')}
-                  />
+              <span className="text-4xl font-black tracking-tight">
+                Ease
+                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                  My
+                </span>
+                Event
+              </span>
+            </Link>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="max-w-xl"
+            >
+              <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
+                Welcome Back
+                <br />
+
+                <span className="ml-35">
+                  To
+                </span>
+
+                <br />
+
+                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                  EaseMyEvent
+                </span>
+              </h1>
+              <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
+                Sign in to continue managing events, accessing registrations,
+                booking tickets, and exploring communities seamlessly.
+              </p>
+
+              <div className="mt-7 space-y-3">
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-violet-500/15 p-3">
+                    <CalendarDays className="h-5 w-5 text-violet-300" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Manage Your Events
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Access registrations, tickets, and dashboards instantly.
+                    </p>
+                  </div>
                 </div>
-                {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    className="pl-10"
-                    {...register('password')}
-                  />
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-blue-500/15 p-3">
+                    <ShieldCheck className="h-5 w-5 text-blue-300" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Secure Authentication
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Protected login with secure account verification.
+                    </p>
+                  </div>
                 </div>
-                {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
+
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-pink-500/15 p-3">
+                    <Rocket className="h-5 w-5 text-pink-300" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Faster Experience
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Continue where you left off with seamless access.
+                    </p>
+                  </div>
+                </div>
               </div>
+            </motion.div>
+          </div>
 
-              <Button
-                type="submit"
-                disabled={signIn.isPending}
-                className="w-full h-11 bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-500/25"
-              >
-                {signIn.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Sign In
-              </Button>
-            </form>
+          {/* RIGHT SIDE */}
+          <div className="flex justify-center lg:justify-end">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="w-full max-w-md"
+            >
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 md:p-6 shadow-2xl backdrop-blur-2xl">
 
-            <p className="mt-6 text-center text-sm text-muted-foreground">
-              Don't have an account?{' '}
-              <Link to="/auth/signup" className="font-semibold text-violet-600 hover:text-violet-700 no-underline">
-                Sign Up
-              </Link>
-            </p>
-          </CardContent>
-        </Card>
-      </motion.div>
+                {/* HEADER */}
+                <div className="mb-5">
+                  <div className="mb-3 inline-flex rounded-2xl bg-violet-500/15 p-3">
+                    <Sparkles className="h-5 w-5 text-violet-300" />
+                  </div>
+
+                  <h2 className="text-3xl font-black tracking-tight">
+                    Sign In
+                  </h2>
+
+                  <p className="mt-1 text-sm text-zinc-400">
+                    Access your EaseMyEvent account.
+                  </p>
+                </div>
+
+                {/* FORM */}
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
+                  {/* EMAIL */}
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      Email
+                    </Label>
+
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        className="h-11 rounded-xl border-white/10 bg-white/5 pl-11 text-white placeholder:text-zinc-500"
+                        {...register('email')}
+                      />
+                    </div>
+
+                    {errors.email && (
+                      <p className="text-xs text-red-400">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* PASSWORD */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">
+                        Password
+                      </Label>
+
+                      <button
+                        type="button"
+                        className="text-xs text-violet-400 transition hover:text-violet-300"
+                      >
+                        Forgot Password?
+                      </button>
+                    </div>
+
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className="h-11 rounded-xl border-white/10 bg-white/5 pl-11 text-white placeholder:text-zinc-500"
+                        {...register('password')}
+                      />
+                    </div>
+
+                    {errors.password && (
+                      <p className="text-xs text-red-400">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* BUTTON */}
+                  <Button
+                    type="submit"
+                    disabled={signIn.isPending}
+                    className="h-11 w-full rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 font-semibold"
+                  >
+                    {signIn.isPending && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+
+                    Sign In
+                  </Button>
+                </form>
+
+                {/* FOOTER */}
+                <p className="mt-5 text-center text-sm text-zinc-400">
+                  Don&apos;t have an account?{' '}
+                  <Link
+                    to="/auth/signup"
+                    className="font-semibold text-violet-400 no-underline"
+                  >
+                    Sign Up
+                  </Link>
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

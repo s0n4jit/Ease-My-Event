@@ -18,7 +18,7 @@ import Papa from 'papaparse'
 
 export const Route = createFileRoute('/organiser/events/$eventId/attendees')({
   meta: () => [
-    { title: 'Event Attendees | EventSphere' },
+    { title: 'Event Attendees | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

@@ -19,7 +19,7 @@ import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin/refunds')({
   meta: () => [
-    { title: 'Refund Management | EventSphere' },
+    { title: 'Refund Management | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

@@ -9,6 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as TeamRouteImport } from './routes/team'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OrganiserIndexRouteImport } from './routes/organiser/index'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
@@ -35,6 +39,26 @@ import { Route as OrganiserEventsEventIdEditRouteImport } from './routes/organis
 import { Route as OrganiserEventsEventIdCheckinRouteImport } from './routes/organiser/events/$eventId/checkin'
 import { Route as OrganiserEventsEventIdAttendeesRouteImport } from './routes/organiser/events/$eventId/attendees'
 
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -166,6 +190,10 @@ const OrganiserEventsEventIdAttendeesRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/team': typeof TeamRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
@@ -193,6 +221,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/team': typeof TeamRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
@@ -221,6 +253,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/team': typeof TeamRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
@@ -250,6 +286,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/team'
+    | '/terms-of-service'
     | '/admin/categories'
     | '/admin/events'
     | '/admin/refunds'
@@ -277,6 +317,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/team'
+    | '/terms-of-service'
     | '/admin/categories'
     | '/admin/events'
     | '/admin/refunds'
@@ -304,6 +348,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/team'
+    | '/terms-of-service'
     | '/admin/categories'
     | '/admin/events'
     | '/admin/refunds'
@@ -332,6 +380,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
+  TeamRoute: typeof TeamRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminEventsRoute: typeof AdminEventsRoute
   AdminRefundsRoute: typeof AdminRefundsRoute
@@ -360,6 +412,34 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -540,6 +620,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
+  TeamRoute: TeamRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminEventsRoute: AdminEventsRoute,
   AdminRefundsRoute: AdminRefundsRoute,

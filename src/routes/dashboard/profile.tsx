@@ -21,7 +21,7 @@ import { STORAGE_BUCKETS } from '#/lib/constants'
 
 export const Route = createFileRoute('/dashboard/profile')({
   meta: () => [
-    { title: 'My Profile | EventSphere' },
+    { title: 'My Profile | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => <AuthGuard><ProfilePage /></AuthGuard>,

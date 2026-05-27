@@ -13,7 +13,7 @@ import { useAdminStats } from '#/hooks/use-admin'
 
 export const Route = createFileRoute('/admin/')({
   meta: () => [
-    { title: 'Admin Console | EventSphere' },
+    { title: 'Admin Console | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

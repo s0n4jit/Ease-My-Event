@@ -15,7 +15,7 @@ import { useRealtimeNotifications } from '#/hooks/use-realtime'
 
 export const Route = createFileRoute('/dashboard/notifications')({
   meta: () => [
-    { title: 'Notifications | EventSphere' },
+    { title: 'Notifications | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => <AuthGuard><NotificationsPage /></AuthGuard>,

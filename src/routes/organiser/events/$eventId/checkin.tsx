@@ -17,7 +17,7 @@ import { Progress } from '#/components/ui/progress'
 
 export const Route = createFileRoute('/organiser/events/$eventId/checkin')({
   meta: () => [
-    { title: 'Attendee Check-In Console | EventSphere' },
+    { title: 'Attendee Check-In Console | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

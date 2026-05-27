@@ -19,7 +19,7 @@ import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin/categories')({
   meta: () => [
-    { title: 'Category Management | EventSphere' },
+    { title: 'Category Management | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

@@ -15,7 +15,7 @@ import { CATEGORY_ICONS } from '#/lib/constants'
 
 export const Route = createFileRoute('/events/')({
   meta: () => [
-    { title: 'Browse Events | EventSphere' },
+    { title: 'Browse Events | EaseMyEvent' },
     { name: 'description', content: 'Explore our catalog of exciting technology, music, business, arts, and photography events. Secure your seats with ease.' },
     { name: 'keywords', content: 'browse events, local meetups, corporate events, tickets booking' }
   ],

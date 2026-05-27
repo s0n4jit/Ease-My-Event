@@ -21,7 +21,7 @@ import { PageLoader } from '#/components/shared/LoadingSpinner'
 
 export const Route = createFileRoute('/organiser/events/$eventId/edit')({
   meta: () => [
-    { title: 'Edit Event Details | EventSphere' },
+    { title: 'Edit Event Details | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

@@ -23,7 +23,7 @@ import { generateEventDescription } from '#/server/gemini'
 
 export const Route = createFileRoute('/organiser/events/create')({
   meta: () => [
-    { title: 'Create Event | EventSphere' },
+    { title: 'Create Event | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (
@@ -338,7 +338,7 @@ function CreateEventWizardPage() {
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="flex flex-col gap-2">
                           <Label className="font-semibold text-xs text-foreground/80">Event Title *</Label>
-                          <Input placeholder="eg: EventSphere Hackathon 2026" value={title} onChange={(e) => setTitle(e.target.value)} />
+                          <Input placeholder="eg: EaseMyEvent Hackathon 2026" value={title} onChange={(e) => setTitle(e.target.value)} />
                         </div>
                         <div className="flex flex-col gap-2">
                           <Label className="font-semibold text-xs text-foreground/80">Category *</Label>

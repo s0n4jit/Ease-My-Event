@@ -15,7 +15,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 
 export const Route = createFileRoute('/organiser/')({
   meta: () => [
-    { title: 'Organiser Dashboard | EventSphere' },
+    { title: 'Organiser Dashboard | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

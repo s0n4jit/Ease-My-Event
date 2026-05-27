@@ -18,7 +18,7 @@ import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin/users')({
   meta: () => [
-    { title: 'User Management | EventSphere' },
+    { title: 'User Management | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (

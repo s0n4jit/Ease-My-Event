@@ -19,7 +19,7 @@ import { CURRENCY_SYMBOL } from '#/lib/constants'
 
 export const Route = createFileRoute('/dashboard/tickets')({
   meta: () => [
-    { title: 'My Tickets | EventSphere' },
+    { title: 'My Tickets | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => <AuthGuard><TicketsPage /></AuthGuard>,

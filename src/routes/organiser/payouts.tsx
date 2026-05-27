@@ -14,7 +14,7 @@ import { Badge } from '#/components/ui/badge'
 
 export const Route = createFileRoute('/organiser/payouts')({
   meta: () => [
-    { title: 'Payout Management | EventSphere' },
+    { title: 'Payout Management | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => (
@@ -86,7 +86,7 @@ function OrganiserPayoutsPage() {
               <CardContent className="p-6 flex items-center justify-between">
                 <div>
                   <h4 className="text-sm font-semibold">Payment Inquiries</h4>
-                  <p className="text-xs text-muted-foreground mt-1">Contact accounts at billing@eventsphere.local for settlement concerns.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Contact accounts at billing@easemyevent.local for settlement concerns.</p>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => refetch()}>
                   <RefreshCw className="h-4 w-4" />

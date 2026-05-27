@@ -12,7 +12,7 @@ import { useWishlist } from '#/hooks/use-wishlist'
 
 export const Route = createFileRoute('/dashboard/wishlist')({
   meta: () => [
-    { title: 'My Wishlist | EventSphere' },
+    { title: 'My Wishlist | EaseMyEvent' },
     { name: 'robots', content: 'noindex, nofollow' }
   ],
   component: () => <AuthGuard><WishlistPage /></AuthGuard>,

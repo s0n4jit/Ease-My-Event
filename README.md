@@ -1,8 +1,8 @@
-# 🌐 EventSphere — AI-Powered Event Management & Ticketing Platform
+# 🌐 EaseMyEvent — AI-Powered Event Management & Ticketing Platform
 
 <div align="center">
   
-  ![EventSphere Banner](public/assets/Event_Sphere_logo.png)
+  ![EaseMyEvent Banner](public/assets/EaseMyEvent_logo.png)
 
   <p align="center">
     <strong>A next-generation, high-performance, real-time event booking, management, and ticketing ecosystem powered by intelligent AI and robust role isolation.</strong>
@@ -23,15 +23,15 @@
 
 ## 📖 Elevator Pitch
 
-**EventSphere** is a premium, secure, and real-time ticketing and event management ecosystem designed specifically to wow hackathon judges, recruiters, and modern developers alike. Operating on a robust **React 19 + TanStack Start** SSR core, the platform seamlessly coordinates with **Supabase (PostgreSQL + RLS + Realtime)** to offer lightning-fast client responses, ironclad security policies, and high-fidelity page rendering. 
+**EaseMyEvent** is a premium, secure, and real-time ticketing and event management ecosystem designed specifically to wow hackathon judges, recruiters, and modern developers alike. Operating on a robust **React 19 + TanStack Start** SSR core, the platform seamlessly coordinates with **Supabase (PostgreSQL + RLS + Realtime)** to offer lightning-fast client responses, ironclad security policies, and high-fidelity page rendering. 
 
-From **AI-generated copywriting and schedule builders (Google Gemini)** to **secure server-side payment processing (Razorpay)**, and **real-time check-in consoles with QR codes**, EventSphere represents the gold standard of modern SaaS applications.
+From **AI-generated copywriting and schedule builders (Google Gemini)** to **secure server-side payment processing (Razorpay)**, and **real-time check-in consoles with QR codes**, EaseMyEvent represents the gold standard of modern SaaS applications.
 
 ---
 
 ## ✨ Key Features
 
-**Live Demo:** https://event-sphere-in.vercel.app/
+**Live Demo:** https://easemyevent.vercel.app/
 
 ### 👤 Attendee Features
 - **Intelligent Event Discovery**: Filter, search, and browse categories of local or virtual events with curated lists and rapid performance.
@@ -73,7 +73,7 @@ From **AI-generated copywriting and schedule builders (Google Gemini)** to **sec
 
 ## 🏛️ Architecture & Database Diagram
 
-EventSphere uses a secure server-function execution model to prevent secret key leakage. Server functions interact directly with database clients while returning strictly typed schemas to the client interface.
+EaseMyEvent uses a secure server-function execution model to prevent secret key leakage. Server functions interact directly with database clients while returning strictly typed schemas to the client interface.
 
 ```mermaid
 graph TD
@@ -107,7 +107,7 @@ erDiagram
 Event Sphere/
 ├── public/                     # Public static assets
 │   ├── assets/
-│   │   ├── Event_Sphere_logo.png
+│   │   ├── EaseMyEvent_logo.png
 │   │   └── favicon/            # Multi-format favicon structures
 │   ├── og-image.png            # Generated high-resolution Open Graph image
 │   ├── robots.txt              # Search engine crawler policies
@@ -191,7 +191,7 @@ The application will begin serving at **`http://localhost:3000`**.
 
 ## ⚡ Production Deployment (Vercel)
 
-EventSphere is fully configured and optimized for zero-overhead deployments on **Vercel**:
+EaseMyEvent is fully configured and optimized for zero-overhead deployments on **Vercel**:
 
 1. Push your active codebase changes to your private/public **GitHub** repository.
 2. Log into your **Vercel Dashboard** and click **Add New > Project**.
@@ -219,7 +219,7 @@ EventSphere is fully configured and optimized for zero-overhead deployments on *
   GitHub: https://github.com/s0n4jit
 
 - **Rajmohan** — Razorpay Integration & UI/UX Enhancement 
-  GitHub: Coming Soon
+  GitHub: https://github.com/USER-00001-IND
 
 ---
 
