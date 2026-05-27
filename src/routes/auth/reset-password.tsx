@@ -21,15 +21,6 @@ import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '#/components/ui/breadcrumb'
-
 export const Route = createFileRoute(
   '/auth/reset-password'
 )({
@@ -54,17 +45,12 @@ function ResetPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false)
 
-  /* SECURE RECOVERY VALIDATION */
+  /* SIMPLE VALIDATION */
   useEffect(() => {
     const hash = window.location.hash
 
-    const isRecoveryFlow =
-      hash.includes('type=recovery')
-
-    if (!isRecoveryFlow) {
-      toast.error(
-        'Unauthorized password reset access.'
-      )
+    if (!hash.includes('access_token')) {
+      toast.error('Invalid reset link.')
 
       navigate({
         to: '/auth/login',
@@ -73,26 +59,7 @@ function ResetPasswordPage() {
       return
     }
 
-    const validateSession = async () => {
-      const { data } =
-        await supabase.auth.getSession()
-
-      if (!data.session) {
-        toast.error(
-          'Reset session expired.'
-        )
-
-        navigate({
-          to: '/auth/login',
-        })
-
-        return
-      }
-
-      setCheckingSession(false)
-    }
-
-    validateSession()
+    setCheckingSession(false)
   }, [navigate])
 
   const passwordStrength = useMemo(() => {
@@ -162,7 +129,6 @@ function ResetPasswordPage() {
 
     if (!passwordsMatch) {
       toast.error('Passwords do not match.')
-
       return
     }
 
@@ -177,7 +143,6 @@ function ResetPasswordPage() {
 
     if (error) {
       toast.error(error.message)
-
       return
     }
 
@@ -185,12 +150,13 @@ function ResetPasswordPage() {
       'Password updated successfully.'
     )
 
+    await supabase.auth.signOut()
+
     navigate({
       to: '/auth/login',
     })
   }
 
-  /* LOADING SCREEN */
   if (checkingSession) {
     return (
       <div className="flex h-screen items-center justify-center bg-black text-white">
@@ -200,7 +166,8 @@ function ResetPasswordPage() {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen overflow-hidden bg-black text-white">
+
       {/* BACKGROUND */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
@@ -208,140 +175,86 @@ function ResetPasswordPage() {
         <div className="absolute bottom-[-10%] right-[-10%] h-[350px] w-[350px] rounded-full bg-blue-700/30 blur-3xl" />
       </div>
 
-      <div className="relative z-10 flex h-screen items-center justify-center overflow-hidden px-4 py-2 lg:px-8">
-        <div className="grid h-full w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8">
 
-          {/* LEFT SIDE */}
-          <div className="hidden h-full lg:flex flex-col">
+        <div className="grid w-full max-w-7xl gap-8 lg:grid-cols-2">
 
-            {/* BREADCRUMB */}
-            <div className="pt-10">
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink asChild>
-                      <Link
-                        to="/"
-                        className="text-zinc-500 transition hover:text-white no-underline"
-                      >
-                        Home
-                      </Link>
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
+          {/* LEFT */}
+          <div className="hidden lg:flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="max-w-xl"
+            >
+              <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
+                Create A
+                <br />
 
-                  <BreadcrumbSeparator />
+                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                  Strong Password
+                </span>
+              </h1>
 
-                  <BreadcrumbItem>
-                    <BreadcrumbPage className="text-violet-400">
-                      Reset Password
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
+              <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
+                Protect your account with a secure password containing uppercase letters,
+                numbers, and symbols.
+              </p>
 
-            {/* CENTER CONTENT */}
-            <div className="flex flex-1 items-center">
-              <div>
-
-                {/* LOGO */}
-                <Link
-                  to="/"
-                  className="mb-8 inline-flex items-center gap-3 no-underline"
-                >
-                  <img
-                    src="/assets/EaseMyEvent_E_logo.png"
-                    alt="Logo"
-                    className="h-11 w-11 object-contain"
-                  />
-
-                  <span className="text-4xl font-black tracking-tight">
-                    Ease
-
-                    <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                      My
-                    </span>
-
-                    Event
-                  </span>
-                </Link>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="max-w-xl"
-                >
-                  <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
-                    Create A
-                    <br />
-
-                    <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                      Strong Password
-                    </span>
-                  </h1>
-
-                  <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
-                    Protect your account with a secure password containing uppercase letters,
-                    numbers, and symbols.
-                  </p>
-
-                  <div className="mt-7 space-y-3">
-                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                      <div className="rounded-xl bg-violet-500/15 p-3">
-                        <ShieldCheck className="h-5 w-5 text-violet-300" />
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          Advanced Security
-                        </h3>
-
-                        <p className="text-sm text-zinc-400">
-                          Your password is securely encrypted and protected.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                      <div className="rounded-xl bg-blue-500/15 p-3">
-                        <KeyRound className="h-5 w-5 text-blue-300" />
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          Strong Password Policy
-                        </h3>
-
-                        <p className="text-sm text-zinc-400">
-                          Weak passwords are automatically rejected.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                      <div className="rounded-xl bg-pink-500/15 p-3">
-                        <CheckCircle2 className="h-5 w-5 text-pink-300" />
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          Secure Recovery
-                        </h3>
-
-                        <p className="text-sm text-zinc-400">
-                          Regain access to your account safely and quickly.
-                        </p>
-                      </div>
-                    </div>
+              <div className="mt-7 space-y-3">
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-violet-500/15 p-3">
+                    <ShieldCheck className="h-5 w-5 text-violet-300" />
                   </div>
-                </motion.div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Advanced Security
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Your password is securely encrypted and protected.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-blue-500/15 p-3">
+                    <KeyRound className="h-5 w-5 text-blue-300" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Strong Password Policy
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Weak passwords are automatically rejected.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                  <div className="rounded-xl bg-pink-500/15 p-3">
+                    <CheckCircle2 className="h-5 w-5 text-pink-300" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold">
+                      Secure Recovery
+                    </h3>
+
+                    <p className="text-sm text-zinc-400">
+                      Regain access to your account safely and quickly.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="flex justify-center lg:justify-end">
+          {/* RIGHT */}
+          <div className="flex justify-center">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -350,7 +263,6 @@ function ResetPasswordPage() {
             >
               <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-2xl md:p-6">
 
-                {/* HEADER */}
                 <div className="mb-5">
                   <div className="mb-3 inline-flex rounded-2xl bg-violet-500/15 p-3">
                     <Sparkles className="h-5 w-5 text-violet-300" />
@@ -365,11 +277,11 @@ function ResetPasswordPage() {
                   </p>
                 </div>
 
-                {/* FORM */}
                 <form
                   onSubmit={handleUpdate}
                   className="space-y-4"
                 >
+
                   {/* PASSWORD */}
                   <div className="space-y-2">
                     <Label htmlFor="password">
@@ -412,7 +324,7 @@ function ResetPasswordPage() {
                       </button>
                     </div>
 
-                    {/* PASSWORD STRENGTH */}
+                    {/* STRENGTH */}
                     <div className="space-y-2">
                       <div className="h-2 overflow-hidden rounded-full bg-white/10">
                         <div
@@ -434,28 +346,9 @@ function ResetPasswordPage() {
                         </p>
                       </div>
                     </div>
-
-                    {/* RULES */}
-                    <div className="space-y-1 pt-1 text-xs text-zinc-500">
-                      <p>
-                        • Minimum 8 characters
-                      </p>
-
-                      <p>
-                        • At least 1 uppercase letter
-                      </p>
-
-                      <p>
-                        • At least 1 number
-                      </p>
-
-                      <p>
-                        • At least 1 special character
-                      </p>
-                    </div>
                   </div>
 
-                  {/* CONFIRM PASSWORD */}
+                  {/* CONFIRM */}
                   <div className="space-y-2">
                     <Label htmlFor="confirmPassword">
                       Confirm Password
@@ -515,7 +408,7 @@ function ResetPasswordPage() {
                       !isPasswordValid ||
                       !passwordsMatch
                     }
-                    className="h-11 w-full rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                    className="h-11 w-full rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 font-semibold"
                   >
                     {loading && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -525,7 +418,6 @@ function ResetPasswordPage() {
                   </Button>
                 </form>
 
-                {/* FOOTER */}
                 <p className="mt-5 text-center text-sm text-zinc-400">
                   Back to{' '}
 
@@ -536,6 +428,7 @@ function ResetPasswordPage() {
                     Sign In
                   </Link>
                 </p>
+
               </div>
             </motion.div>
           </div>
