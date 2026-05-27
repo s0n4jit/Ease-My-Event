@@ -27,6 +27,7 @@ import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile
 import { Route as DashboardNotificationsRouteImport } from './routes/dashboard/notifications'
 import { Route as DashboardNetworkRouteImport } from './routes/dashboard/network'
 import { Route as CategoriesSlugRouteImport } from './routes/categories/$slug'
+import { Route as AuthVerifyResetOtpRouteImport } from './routes/auth/verify-reset-otp'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
@@ -131,6 +132,11 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
   path: '/categories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthVerifyResetOtpRoute = AuthVerifyResetOtpRouteImport.update({
+  id: '/auth/verify-reset-otp',
+  path: '/auth/verify-reset-otp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthSignupRoute = AuthSignupRouteImport.update({
   id: '/auth/signup',
   path: '/auth/signup',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-reset-otp': typeof AuthVerifyResetOtpRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
@@ -247,6 +254,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-reset-otp': typeof AuthVerifyResetOtpRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-reset-otp': typeof AuthVerifyResetOtpRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/auth/verify-reset-otp'
     | '/categories/$slug'
     | '/dashboard/network'
     | '/dashboard/notifications'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/auth/verify-reset-otp'
     | '/categories/$slug'
     | '/dashboard/network'
     | '/dashboard/notifications'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/auth/verify-reset-otp'
     | '/categories/$slug'
     | '/dashboard/network'
     | '/dashboard/notifications'
@@ -416,6 +428,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  AuthVerifyResetOtpRoute: typeof AuthVerifyResetOtpRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
   DashboardNetworkRoute: typeof DashboardNetworkRoute
   DashboardNotificationsRoute: typeof DashboardNotificationsRoute
@@ -564,6 +577,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/verify-reset-otp': {
+      id: '/auth/verify-reset-otp'
+      path: '/auth/verify-reset-otp'
+      fullPath: '/auth/verify-reset-otp'
+      preLoaderRoute: typeof AuthVerifyResetOtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/signup': {
       id: '/auth/signup'
       path: '/auth/signup'
@@ -672,6 +692,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSignupRoute: AuthSignupRoute,
+  AuthVerifyResetOtpRoute: AuthVerifyResetOtpRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
   DashboardNetworkRoute: DashboardNetworkRoute,
   DashboardNotificationsRoute: DashboardNotificationsRoute,

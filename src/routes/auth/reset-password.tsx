@@ -1,6 +1,10 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  useNavigate,
+} from '@tanstack/react-router'
+
 import { motion } from 'framer-motion'
-import { useEffect, useMemo, useState } from 'react'
 
 import {
   Lock,
@@ -11,7 +15,15 @@ import {
   KeyRound,
   Eye,
   EyeOff,
+  Info,
 } from 'lucide-react'
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import { toast } from 'sonner'
 
@@ -30,11 +42,14 @@ export const Route = createFileRoute(
 function ResetPasswordPage() {
   const navigate = useNavigate()
 
-  const [password, setPassword] = useState('')
+  const [password, setPassword] =
+    useState('')
+
   const [confirmPassword, setConfirmPassword] =
     useState('')
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] =
+    useState(false)
 
   const [checkingSession, setCheckingSession] =
     useState(true)
@@ -45,58 +60,90 @@ function ResetPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false)
 
-  /* SIMPLE VALIDATION */
+  const passwordUpdatedRef = useRef(false)
+
   useEffect(() => {
-    const hash = window.location.hash
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) {
+        toast.error(
+          'Session expired or not found. Please restart the reset process.'
+        )
+        navigate({ to: '/auth/forgot-password' })
+        return
+      }
+      setCheckingSession(false)
+    })
 
-    if (!hash.includes('access_token')) {
-      toast.error('Invalid reset link.')
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (
+          event === 'PASSWORD_RECOVERY' ||
+          event === 'SIGNED_IN'
+        ) {
+          setCheckingSession(false)
+          return
+        }
 
-      navigate({
-        to: '/auth/login',
-      })
+        if (!session) {
+          toast.error(
+            'Session expired. Please restart the reset process.'
+          )
+          navigate({ to: '/auth/forgot-password' })
+        }
+      }
+    )
 
-      return
+    /* SIGN OUT ON BROWSER CLOSE / REFRESH */
+    const handleLeave = () => {
+      if (!passwordUpdatedRef.current) {
+        supabase.auth.signOut()
+      }
     }
 
-    setCheckingSession(false)
+    window.addEventListener('beforeunload', handleLeave)
+
+    return () => {
+      subscription.unsubscribe()
+      window.removeEventListener('beforeunload', handleLeave)
+      /*
+        NO signOut() here — it was causing the session
+        to be killed immediately when navigating from
+        verify-reset-otp to this page
+      */
+    }
   }, [navigate])
 
+  /* PASSWORD STRENGTH */
   const passwordStrength = useMemo(() => {
     let score = 0
 
     if (password.length >= 8) score++
-
     if (/[A-Z]/.test(password)) score++
-
     if (/[0-9]/.test(password)) score++
+    if (/[^A-Za-z0-9]/.test(password)) score++
 
-    if (/[^A-Za-z0-9]/.test(password))
-      score++
-
-    if (score <= 1) {
+    if (score <= 1)
       return {
         text: 'Weak',
         width: '25%',
         color: 'bg-red-500',
       }
-    }
 
-    if (score === 2) {
+    if (score === 2)
       return {
         text: 'Moderate',
         width: '50%',
         color: 'bg-yellow-500',
       }
-    }
 
-    if (score === 3) {
+    if (score === 3)
       return {
         text: 'Strong',
         width: '75%',
         color: 'bg-blue-500',
       }
-    }
 
     return {
       text: 'Very Strong',
@@ -114,7 +161,8 @@ function ResetPasswordPage() {
   const passwordsMatch =
     password === confirmPassword
 
-  const handleUpdate = async (
+  /* UPDATE PASSWORD */
+  const handleUpdatePassword = async (
     e: React.FormEvent
   ) => {
     e.preventDefault()
@@ -123,7 +171,6 @@ function ResetPasswordPage() {
       toast.error(
         'Password must contain uppercase, number, symbol and minimum 8 characters.'
       )
-
       return
     }
 
@@ -146,17 +193,22 @@ function ResetPasswordPage() {
       return
     }
 
+    /*
+      MARK COMPLETE SO CLEANUP DOES
+      NOT TRIGGER AN EXTRA SIGNOUT
+    */
+    passwordUpdatedRef.current = true
+
     toast.success(
       'Password updated successfully.'
     )
 
     await supabase.auth.signOut()
 
-    navigate({
-      to: '/auth/login',
-    })
+    navigate({ to: '/auth/login' })
   }
 
+  /* LOADER */
   if (checkingSession) {
     return (
       <div className="flex h-screen items-center justify-center bg-black text-white">
@@ -170,8 +222,7 @@ function ResetPasswordPage() {
 
       {/* BACKGROUND */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
-
+        <div className="absolute left-[-10%] top-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
         <div className="absolute bottom-[-10%] right-[-10%] h-[350px] w-[350px] rounded-full bg-blue-700/30 blur-3xl" />
       </div>
 
@@ -179,71 +230,71 @@ function ResetPasswordPage() {
 
         <div className="grid w-full max-w-7xl gap-8 lg:grid-cols-2">
 
-          {/* LEFT */}
+          {/* LEFT SIDE */}
           <div className="hidden lg:flex flex-col justify-center">
+
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
               className="max-w-xl"
             >
+
               <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
                 Create A
                 <br />
-
                 <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                   Strong Password
                 </span>
               </h1>
 
               <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
-                Protect your account with a secure password containing uppercase letters,
+                Protect your account with a secure
+                password containing uppercase letters,
                 numbers, and symbols.
               </p>
 
               <div className="mt-7 space-y-3">
+
+                {/* CARD 1 */}
                 <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
                   <div className="rounded-xl bg-violet-500/15 p-3">
                     <ShieldCheck className="h-5 w-5 text-violet-300" />
                   </div>
-
                   <div>
                     <h3 className="text-sm font-semibold">
                       Advanced Security
                     </h3>
-
                     <p className="text-sm text-zinc-400">
                       Your password is securely encrypted and protected.
                     </p>
                   </div>
                 </div>
 
+                {/* CARD 2 */}
                 <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
                   <div className="rounded-xl bg-blue-500/15 p-3">
                     <KeyRound className="h-5 w-5 text-blue-300" />
                   </div>
-
                   <div>
                     <h3 className="text-sm font-semibold">
                       Strong Password Policy
                     </h3>
-
                     <p className="text-sm text-zinc-400">
                       Weak passwords are automatically rejected.
                     </p>
                   </div>
                 </div>
 
+                {/* CARD 3 */}
                 <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
                   <div className="rounded-xl bg-pink-500/15 p-3">
                     <CheckCircle2 className="h-5 w-5 text-pink-300" />
                   </div>
-
                   <div>
                     <h3 className="text-sm font-semibold">
                       Secure Recovery
                     </h3>
-
                     <p className="text-sm text-zinc-400">
                       Regain access to your account safely and quickly.
                     </p>
@@ -253,16 +304,19 @@ function ResetPasswordPage() {
             </motion.div>
           </div>
 
-          {/* RIGHT */}
-          <div className="flex justify-center">
+          {/* RIGHT SIDE */}
+          <div className="flex items-center justify-center">
+
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
               className="w-full max-w-md"
             >
+
               <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-2xl md:p-6">
 
+                {/* HEADER */}
                 <div className="mb-5">
                   <div className="mb-3 inline-flex rounded-2xl bg-violet-500/15 p-3">
                     <Sparkles className="h-5 w-5 text-violet-300" />
@@ -277,8 +331,23 @@ function ResetPasswordPage() {
                   </p>
                 </div>
 
+                {/* SESSION WARNING BANNER */}
+                <div className="mb-5 flex items-start gap-3 rounded-2xl border border-yellow-500/20 bg-yellow-500/10 px-4 py-3">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-yellow-400" />
+                  <p className="text-xs leading-relaxed text-yellow-300">
+                    Please{' '}
+                    <span className="font-semibold text-white">
+                      do not refresh
+                    </span>{' '}
+                    this page. Your reset session is
+                    temporary — refreshing may require
+                    you to restart the process.
+                  </p>
+                </div>
+
+                {/* FORM */}
                 <form
-                  onSubmit={handleUpdate}
+                  onSubmit={handleUpdatePassword}
                   className="space-y-4"
                 >
 
@@ -310,9 +379,7 @@ function ResetPasswordPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          setShowPassword(
-                            !showPassword
-                          )
+                          setShowPassword(!showPassword)
                         }
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500"
                       >
@@ -324,23 +391,20 @@ function ResetPasswordPage() {
                       </button>
                     </div>
 
-                    {/* STRENGTH */}
+                    {/* STRENGTH BAR */}
                     <div className="space-y-2">
                       <div className="h-2 overflow-hidden rounded-full bg-white/10">
                         <div
                           className={`h-full transition-all duration-300 ${passwordStrength.color}`}
                           style={{
-                            width:
-                              passwordStrength.width,
+                            width: passwordStrength.width,
                           }}
                         />
                       </div>
-
                       <div className="flex items-center justify-between">
                         <p className="text-xs text-zinc-400">
                           Password Strength
                         </p>
-
                         <p className="text-xs font-medium">
                           {passwordStrength.text}
                         </p>
@@ -348,7 +412,7 @@ function ResetPasswordPage() {
                     </div>
                   </div>
 
-                  {/* CONFIRM */}
+                  {/* CONFIRM PASSWORD */}
                   <div className="space-y-2">
                     <Label htmlFor="confirmPassword">
                       Confirm Password
@@ -413,22 +477,30 @@ function ResetPasswordPage() {
                     {loading && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-
                     Update Password
                   </Button>
                 </form>
 
+                {/* FOOTER */}
                 <p className="mt-5 text-center text-sm text-zinc-400">
                   Back to{' '}
-
                   <Link
                     to="/auth/login"
+                    onClick={() => {
+                      /*
+                        SIGN OUT RECOVERY SESSION
+                        IF USER LEAVES WITHOUT
+                        RESETTING PASSWORD
+                      */
+                      if (!passwordUpdatedRef.current) {
+                        supabase.auth.signOut()
+                      }
+                    }}
                     className="font-semibold text-violet-400 no-underline"
                   >
                     Sign In
                   </Link>
                 </p>
-
               </div>
             </motion.div>
           </div>
