@@ -20,6 +20,15 @@ import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '#/components/ui/breadcrumb'
+
 import { useSignUp, useAuth } from '#/hooks/use-auth'
 import { signupSchema, type SignupFormData } from '#/schemas/auth.schema'
 
@@ -35,7 +44,9 @@ export const Route = createFileRoute('/auth/signup')({
 
 function SignupPage() {
   const navigate = useNavigate()
+
   const signUp = useSignUp()
+
   const { isAuthenticated, role } = useAuth()
 
   if (isAuthenticated && role) {
@@ -56,6 +67,7 @@ function SignupPage() {
     watch,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
+
     defaultValues: {
       role: 'attendee',
     },
@@ -80,15 +92,26 @@ function SignupPage() {
 
       features: [
         {
-          icon: <Ticket className="h-5 w-5 text-violet-300" />,
+          icon: (
+            <Ticket className="h-5 w-5 text-violet-300" />
+          ),
+
           title: 'Easy Event Booking',
+
           desc: 'Find and join events in just a few clicks.',
+
           color: 'bg-violet-500/15',
         },
+
         {
-          icon: <ShieldCheck className="h-5 w-5 text-blue-300" />,
+          icon: (
+            <ShieldCheck className="h-5 w-5 text-blue-300" />
+          ),
+
           title: 'Secure Ticket Access',
+
           desc: 'Protected registration and seamless check-ins.',
+
           color: 'bg-blue-500/15',
         },
       ],
@@ -110,15 +133,26 @@ function SignupPage() {
 
       features: [
         {
-          icon: <CalendarDays className="h-5 w-5 text-violet-300" />,
+          icon: (
+            <CalendarDays className="h-5 w-5 text-violet-300" />
+          ),
+
           title: 'Smart Event Management',
+
           desc: 'Handle registrations and attendees effortlessly.',
+
           color: 'bg-violet-500/15',
         },
+
         {
-          icon: <Rocket className="h-5 w-5 text-blue-300" />,
+          icon: (
+            <Rocket className="h-5 w-5 text-blue-300" />
+          ),
+
           title: 'Grow Your Audience',
+
           desc: 'Reach more people and manage events efficiently.',
+
           color: 'bg-blue-500/15',
         },
       ],
@@ -135,9 +169,12 @@ function SignupPage() {
         full_name: data.full_name,
         role: data.role,
       },
+
       {
         onSuccess: () => {
-          toast.success('Account created successfully!')
+          toast.success(
+            'Account created successfully!'
+          )
 
           const target =
             data.role === 'organiser'
@@ -148,7 +185,10 @@ function SignupPage() {
         },
 
         onError: (error) => {
-          toast.error(error.message || 'Failed to create account')
+          toast.error(
+            error.message ||
+              'Failed to create account'
+          )
         },
       }
     )
@@ -156,78 +196,118 @@ function SignupPage() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-black text-white">
-      {/* Background */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
+        <div className="absolute left-[-10%] top-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
 
         <div className="absolute bottom-[-10%] right-[-10%] h-[350px] w-[350px] rounded-full bg-blue-700/30 blur-3xl" />
       </div>
 
       <div className="relative z-10 flex h-screen items-center justify-center overflow-hidden px-4 py-2 lg:px-8">
-        <div className="grid w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
+        <div className="grid h-full w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
 
           {/* LEFT SIDE */}
-          <div className="hidden lg:flex flex-col justify-center">
-            <Link
-              to="/"
-              className="mb-8 inline-flex items-center gap-3 no-underline"
-            >
-              <img
-                src="/assets/EaseMyEvent_E_logo.png"
-                alt="Logo"
-                className="h-11 w-11 object-contain"
-              />
+          <div className="hidden h-full lg:flex flex-col">
 
-              <span className="text-4xl font-black tracking-tight">
-                Ease
-                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                  My
-                </span>
-                Event
-              </span>
-            </Link>
+            {/* BREADCRUMB */}
+            <div className="pt-10">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link
+                        to="/"
+                        className="text-zinc-500 transition hover:text-white no-underline"
+                      >
+                        Home
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedRole}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -18 }}
-                transition={{ duration: 0.35 }}
-                className="max-w-xl"
-              >
-                <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
-                  {currentContent.title}
-                </h1>
+                  <BreadcrumbSeparator />
 
-                <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
-                  {currentContent.description}
-                </p>
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="text-violet-400">
+                      Sign Up
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
 
-                <div className="mt-7 space-y-3">
-                  {currentContent.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl"
-                    >
-                      <div className={`rounded-xl p-3 ${feature.color}`}>
-                        {feature.icon}
-                      </div>
+            {/* CENTER CONTENT */}
+            <div className="flex flex-1 items-center">
+              <div>
 
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          {feature.title}
-                        </h3>
+                {/* LOGO */}
+                <Link
+                  to="/"
+                  className="mb-8 inline-flex items-center gap-3 no-underline"
+                >
+                  <img
+                    src="/assets/EaseMyEvent_E_logo.png"
+                    alt="Logo"
+                    className="h-11 w-11 object-contain"
+                  />
 
-                        <p className="text-sm text-zinc-400">
-                          {feature.desc}
-                        </p>
-                      </div>
+                  <span className="text-4xl font-black tracking-tight">
+                    Ease
+
+                    <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                      My
+                    </span>
+
+                    Event
+                  </span>
+                </Link>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={selectedRole}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -18 }}
+                    transition={{ duration: 0.35 }}
+                    className="max-w-xl"
+                  >
+                    <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
+                      {currentContent.title}
+                    </h1>
+
+                    <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
+                      {currentContent.description}
+                    </p>
+
+                    <div className="mt-7 space-y-3">
+                      {currentContent.features.map(
+                        (feature, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl"
+                          >
+                            <div
+                              className={`rounded-xl p-3 ${feature.color}`}
+                            >
+                              {feature.icon}
+                            </div>
+
+                            <div>
+                              <h3 className="text-sm font-semibold">
+                                {feature.title}
+                              </h3>
+
+                              <p className="text-sm text-zinc-400">
+                                {feature.desc}
+                              </p>
+                            </div>
+                          </div>
+                        )
+                      )}
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
 
           {/* RIGHT SIDE */}
@@ -238,9 +318,9 @@ function SignupPage() {
               transition={{ duration: 0.35 }}
               className="w-full max-w-md"
             >
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 md:p-6 shadow-2xl backdrop-blur-2xl">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-2xl md:p-6">
 
-                {/* Header */}
+                {/* HEADER */}
                 <div className="mb-5">
                   <div className="mb-3 inline-flex rounded-2xl bg-violet-500/15 p-3">
                     <Sparkles className="h-5 w-5 text-violet-300" />
@@ -260,7 +340,7 @@ function SignupPage() {
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-3"
                 >
-                  {/* Full Name */}
+                  {/* FULL NAME */}
                   <div className="space-y-2">
                     <Label htmlFor="full_name">
                       Full Name
@@ -278,7 +358,7 @@ function SignupPage() {
                     </div>
                   </div>
 
-                  {/* Email */}
+                  {/* EMAIL */}
                   <div className="space-y-2">
                     <Label htmlFor="email">
                       Email
@@ -297,7 +377,7 @@ function SignupPage() {
                     </div>
                   </div>
 
-                  {/* Password */}
+                  {/* PASSWORD */}
                   <div className="space-y-2">
                     <Label htmlFor="password">
                       Password
@@ -316,7 +396,7 @@ function SignupPage() {
                     </div>
                   </div>
 
-                  {/* Confirm Password */}
+                  {/* CONFIRM PASSWORD */}
                   <div className="space-y-2">
                     <Label htmlFor="confirm_password">
                       Confirm Password
@@ -349,6 +429,7 @@ function SignupPage() {
                           desc: 'Join events',
                           icon: '🎟️',
                         },
+
                         {
                           value: 'organiser' as const,
                           label: 'Organiser',
@@ -359,9 +440,15 @@ function SignupPage() {
                         <button
                           key={option.value}
                           type="button"
-                          onClick={() => setValue('role', option.value)}
+                          onClick={() =>
+                            setValue(
+                              'role',
+                              option.value
+                            )
+                          }
                           className={`rounded-2xl border p-4 text-left transition-all duration-300 ${
-                            selectedRole === option.value
+                            selectedRole ===
+                            option.value
                               ? 'border-violet-500 bg-violet-500/20'
                               : 'border-white/10 bg-white/[0.03]'
                           }`}
@@ -399,6 +486,7 @@ function SignupPage() {
                 {/* FOOTER */}
                 <p className="mt-4 text-center text-sm text-zinc-400">
                   Already have an account?{' '}
+
                   <Link
                     to="/auth/login"
                     className="font-semibold text-violet-400 no-underline"

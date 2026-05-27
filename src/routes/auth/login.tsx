@@ -18,6 +18,15 @@ import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '#/components/ui/breadcrumb'
+
 import { useSignIn, useAuth } from '#/hooks/use-auth'
 import { loginSchema, type LoginFormData } from '#/schemas/auth.schema'
 
@@ -37,7 +46,9 @@ export const Route = createFileRoute('/auth/login')({
 
 function LoginPage() {
   const navigate = useNavigate()
+
   const signIn = useSignIn()
+
   const { isAuthenticated, role } = useAuth()
 
   if (isAuthenticated && role) {
@@ -70,13 +81,17 @@ function LoginPage() {
 
         if (error || !profile) {
           toast.error('Failed to retrieve user profile.')
+
           await supabase.auth.signOut()
+
           return
         }
 
         if (profile.is_active === false) {
           toast.error('Your account has been suspended.')
+
           await supabase.auth.signOut()
+
           return
         }
 
@@ -102,110 +117,136 @@ function LoginPage() {
     <div className="relative h-screen overflow-hidden bg-black text-white">
       {/* BACKGROUND */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
+        <div className="absolute left-[-10%] top-[-10%] h-[350px] w-[350px] rounded-full bg-violet-700/30 blur-3xl" />
 
         <div className="absolute bottom-[-10%] right-[-10%] h-[350px] w-[350px] rounded-full bg-blue-700/30 blur-3xl" />
       </div>
 
       <div className="relative z-10 flex h-screen items-center justify-center overflow-hidden px-4 py-2 lg:px-8">
-        <div className="grid w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
+        <div className="grid h-full w-full max-w-7xl items-center gap-8 lg:grid-cols-2">
 
           {/* LEFT SIDE */}
-          <div className="hidden lg:flex flex-col justify-center">
-            <Link
-              to="/"
-              className="mb-8 inline-flex items-center gap-3 no-underline"
-            >
-              <img
-                src="/assets/EaseMyEvent_E_logo.png"
-                alt="Logo"
-                className="h-11 w-11 object-contain"
-              />
+          <div className="hidden h-full lg:flex flex-col">
 
-              <span className="text-4xl font-black tracking-tight">
-                Ease
-                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                  My
-                </span>
-                Event
-              </span>
-            </Link>
+            {/* BREADCRUMB */}
+            <div className="pt-10">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link
+                        to="/"
+                        className="text-zinc-500 transition hover:text-white no-underline"
+                      >
+                        Home
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
-              className="max-w-xl"
-            >
-              <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
-                Welcome Back
-                <br />
+                  <BreadcrumbSeparator />
 
-                <span className="ml-35">
-                  To
-                </span>
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="text-violet-400">
+                      Sign In
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
 
-                <br />
+            {/* CENTER CONTENT */}
+            <div className="flex flex-1 items-center">
 
-                <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                  EaseMyEvent
-                </span>
-              </h1>
-              <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
-                Sign in to continue managing events, accessing registrations,
-                booking tickets, and exploring communities seamlessly.
-              </p>
+              <div>
+                {/* LOGO */}
+                <Link
+                  to="/"
+                  className="mb-8 inline-flex items-center gap-3 no-underline"
+                >
+                  <img
+                    src="/assets/EaseMyEvent_E_logo.png"
+                    alt="Logo"
+                    className="h-11 w-11 object-contain"
+                  />
 
-              <div className="mt-7 space-y-3">
-                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                  <div className="rounded-xl bg-violet-500/15 p-3">
-                    <CalendarDays className="h-5 w-5 text-violet-300" />
+                  <span className="text-4xl font-black tracking-tight">
+                    Ease
+
+                    <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                      My
+                    </span>
+
+                    Event
+                  </span>
+                </Link>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="max-w-xl"
+                >
+                  <h1 className="text-5xl xl:text-6xl font-black leading-[0.95] tracking-tight">
+                    Welcome Back
+                  </h1>
+
+                  <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
+                    Sign in to continue managing events, accessing registrations,
+                    booking tickets, and exploring communities seamlessly.
+                  </p>
+
+                  <div className="mt-7 space-y-3">
+                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                      <div className="rounded-xl bg-violet-500/15 p-3">
+                        <CalendarDays className="h-5 w-5 text-violet-300" />
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-semibold">
+                          Manage Your Events
+                        </h3>
+
+                        <p className="text-sm text-zinc-400">
+                          Access registrations, tickets, and dashboards instantly.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                      <div className="rounded-xl bg-blue-500/15 p-3">
+                        <ShieldCheck className="h-5 w-5 text-blue-300" />
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-semibold">
+                          Secure Authentication
+                        </h3>
+
+                        <p className="text-sm text-zinc-400">
+                          Protected login with secure account verification.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
+                      <div className="rounded-xl bg-pink-500/15 p-3">
+                        <Rocket className="h-5 w-5 text-pink-300" />
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-semibold">
+                          Faster Experience
+                        </h3>
+
+                        <p className="text-sm text-zinc-400">
+                          Continue where you left off with seamless access.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-
-                  <div>
-                    <h3 className="text-sm font-semibold">
-                      Manage Your Events
-                    </h3>
-
-                    <p className="text-sm text-zinc-400">
-                      Access registrations, tickets, and dashboards instantly.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                  <div className="rounded-xl bg-blue-500/15 p-3">
-                    <ShieldCheck className="h-5 w-5 text-blue-300" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-semibold">
-                      Secure Authentication
-                    </h3>
-
-                    <p className="text-sm text-zinc-400">
-                      Protected login with secure account verification.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-xl">
-                  <div className="rounded-xl bg-pink-500/15 p-3">
-                    <Rocket className="h-5 w-5 text-pink-300" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-semibold">
-                      Faster Experience
-                    </h3>
-
-                    <p className="text-sm text-zinc-400">
-                      Continue where you left off with seamless access.
-                    </p>
-                  </div>
-                </div>
+                </motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* RIGHT SIDE */}
@@ -216,7 +257,7 @@ function LoginPage() {
               transition={{ duration: 0.35 }}
               className="w-full max-w-md"
             >
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 md:p-6 shadow-2xl backdrop-blur-2xl">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-2xl md:p-6">
 
                 {/* HEADER */}
                 <div className="mb-5">
@@ -270,12 +311,16 @@ function LoginPage() {
                         Password
                       </Label>
 
-                      <button
-                        type="button"
-                        className="text-xs text-violet-400 transition hover:text-violet-300"
+                      <Link
+                        to="/auth/forgot-password"
+                        className="group inline-flex items-center gap-1 text-xs font-medium text-violet-400 no-underline transition hover:text-violet-300"
                       >
                         Forgot Password?
-                      </button>
+
+                        <span className="translate-x-0 transition-transform duration-200 group-hover:translate-x-1">
+                          →
+                        </span>
+                      </Link>
                     </div>
 
                     <div className="relative">
@@ -314,6 +359,7 @@ function LoginPage() {
                 {/* FOOTER */}
                 <p className="mt-5 text-center text-sm text-zinc-400">
                   Don&apos;t have an account?{' '}
+
                   <Link
                     to="/auth/signup"
                     className="font-semibold text-violet-400 no-underline"

@@ -28,7 +28,9 @@ import { Route as DashboardNotificationsRouteImport } from './routes/dashboard/n
 import { Route as DashboardNetworkRouteImport } from './routes/dashboard/network'
 import { Route as CategoriesSlugRouteImport } from './routes/categories/$slug'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminRefundsRouteImport } from './routes/admin/refunds'
 import { Route as AdminEventsRouteImport } from './routes/admin/events'
@@ -134,9 +136,19 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
   path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -198,7 +210,9 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
@@ -229,7 +243,9 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
@@ -261,7 +277,9 @@ export interface FileRoutesById {
   '/admin/events': typeof AdminEventsRoute
   '/admin/refunds': typeof AdminRefundsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/dashboard/network': typeof DashboardNetworkRoute
@@ -294,7 +312,9 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/refunds'
     | '/admin/users'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/categories/$slug'
     | '/dashboard/network'
@@ -325,7 +345,9 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/refunds'
     | '/admin/users'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/categories/$slug'
     | '/dashboard/network'
@@ -356,7 +378,9 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/refunds'
     | '/admin/users'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/categories/$slug'
     | '/dashboard/network'
@@ -388,7 +412,9 @@ export interface RootRouteChildren {
   AdminEventsRoute: typeof AdminEventsRoute
   AdminRefundsRoute: typeof AdminRefundsRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSignupRoute: typeof AuthSignupRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
   DashboardNetworkRoute: typeof DashboardNetworkRoute
@@ -545,11 +571,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
@@ -628,7 +668,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminEventsRoute: AdminEventsRoute,
   AdminRefundsRoute: AdminRefundsRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSignupRoute: AuthSignupRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
   DashboardNetworkRoute: DashboardNetworkRoute,
