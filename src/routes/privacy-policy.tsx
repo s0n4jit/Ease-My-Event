@@ -247,7 +247,7 @@ function PrivacyPage() {
 								<p className="text-muted-foreground leading-relaxed">
 									<strong>Email:</strong> privacy@easemyevent.com
 									<br />
-									<strong>Address:</strong> EaseMyEvent HQ, Bengaluru, India
+									<strong>Address:</strong> EaseMyEvent HQ, Assam, India
 								</p>
 							</div>
 						</div>
