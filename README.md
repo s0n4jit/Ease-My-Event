@@ -215,7 +215,7 @@ EaseMyEvent is fully configured and optimized for zero-overhead deployments on *
 - **Amit** — Team Lead, Database Design, Backend Development & UI/UX Enhancement  
   GitHub: https://github.com/mello911
 
-- **Sonajit Rabha** — Frontend Development, System Architecture, Authentication, Integrations, Deployment & Project Implementation  
+- **Sonajit** — Frontend Development, System Architecture, Authentication, Integrations, Deployment & Project Implementation  
   GitHub: https://github.com/s0n4jit
 
 - **Rajmohan** — Razorpay Integration & UI/UX Enhancement 
